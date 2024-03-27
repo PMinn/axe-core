@@ -23,11 +23,10 @@ module.exports = function (grunt) {
 
         src.forEach(globPath => {
           glob.sync(globPath).forEach(filePath => {
-            const relativePath = path.relative(
-              path.dirname(file.dest),
-              filePath
-            );
-            const filename = path.basename(filePath, '.js');
+            const relativePath = path
+              .relative(path.dirname(file.dest), filePath)
+              .replaceAll('\\', '/');
+            const filename = path.basename(filePath, '.js').split('\\').pop();
             const functionName = toTitleCase(filename);
 
             outFile += `import ${functionName} from '${relativePath}';\n`;
