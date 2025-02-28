@@ -282,8 +282,8 @@
       "help": "頁面應該有一個主要 landmark"
     },
     "landmark-unique": {
-      "help": "確保 landmark 的獨特性",
-      "description": "landmark 應具有獨特的角色或角色/標籤/標題（即無障礙的名稱） 組合成唯一"
+      "description": "landmark 應具有獨特的角色或角色/標籤/標題（即無障礙的名稱） 組合成唯一",
+      "help": "確保 landmark 的獨特性"
     },
     "link-in-text-block": {
       "description": "確保連結以不依賴顏色的方式與周圍的文字區分開來",
@@ -372,6 +372,10 @@
     "skip-link": {
       "description": "確保所有跳過連結都有可聚焦的目標",
       "help": "跳過連結目標應該存在並且可聚焦"
+    },
+    "summary-name": {
+      "description": "確保摘要元素具有可識別的文本",
+      "help": "摘要元素必須具有可辨識的文本"
     },
     "svg-img-alt": {
       "description": "確保具有 img、圖形頁面或圖形符號角色的 <svg> 元素具有無障礙的文字",
@@ -497,7 +501,10 @@
       }
     },
     "aria-required-children": {
-      "pass": "子元素需要 ARIA 角色",
+      "pass": {
+        "default": "子元素需要 ARIA 角色",
+        "aria-busy": "元素具有 aria-busy 屬性，因此允許省略必要的子元素"
+      },
       "fail": {
         "singular": "子元素所需的 ARIA 角色不存在：${data.values}",
         "plural": "子元素所需的 ARIA 角色不存在：${data.values}",
@@ -535,7 +542,8 @@
         "noIdShadow": "ARIA 屬性元素 ID 在頁面上不存在或不同影子 DOM 樹的後代：${data.needsReview}",
         "ariaCurrent": "ARIA 屬性值無效，將被視為「aria-current=true」：${data.needsReview}",
         "idrefs": "無法確定頁面上是否存在 ARIA 屬性元素 ID：${data.needsReview}",
-        "empty": "ARIA 屬性值在空時被忽略：${data.needsReview}"
+        "empty": "ARIA 屬性值在空時被忽略：${data.needsReview}",
+        "controlsWithinPopup": "使用 aria-haspopup 時，無法確定頁面上 aria-controls 所引用的 ID 是否存在：${data.needsReview}"
       }
     },
     "aria-valid-attr": {
@@ -679,7 +687,12 @@
     },
     "autocomplete-valid": {
       "pass": "autocomplete 屬性的格式正確",
-      "fail": "autocomplete 屬性的格式不正確"
+      "fail": "autocomplete 屬性的格式不正確",
+      "incomplete": "autocomplete 屬性的內容為非標準。檢查是否可以使用任何標準值代替。"
+    },
+    "has-outdated-tag": {
+      "pass": "元素不具有過時的標籤",
+      "fail": "移除過時的標籤 (${data.tagName})"
     },
     "accesskeys": {
       "pass": "accesskey 屬性值是唯一的",
@@ -862,17 +875,22 @@
       "fail": "<meta> 標記上的 ${data} 停用行動裝置上的縮放"
     },
     "target-offset": {
-      "pass": "目標與其最近的鄰近的元素有足夠的空間，安全可點選空間的距離為 ${data.closestOffset}px，至少為 ${data.minOffset}px",
+      "pass": {
+        "default": "目標與其最近的鄰居要有足夠的空間。安全可點選空間的直徑為 ${data.closestOffset}px 至少為  ${data.minOffset}px",
+        "large": "目標遠超過 ${data.minOffset}px 最小大小"
+      },
       "fail": "目標與其最近鄰近的元素之間的空間不足，安全可點擊空間的距離為 ${data.closestOffset}px，而不是至少 ${data.minOffset}px",
       "incomplete": {
         "default": "tabindex 為負的元素與其最近鄰近的元素的空間不足，安全可點擊空間的距離為 ${data.closestOffset}px，而不是至少 ${data.minOffset}px，這是一個目標嗎？",
-        "nonTabbableNeighbor": "目標與其最近鄰近的元素之間的空間不足，安全可點擊空間的距離為 ${data.closestOffset}px，而不是至少 ${data.minOffset}px，鄰近的元素是目標嗎？"
+        "nonTabbableNeighbor": "目標與其最近鄰近的元素之間的空間不足，安全可點擊空間的距離為 ${data.closestOffset}px，而不是至少 ${data.minOffset}px，鄰近的元素是目標嗎？",
+        "tooManyRects": "由於重疊元素太多，無法取得目標大小"
       }
     },
     "target-size": {
       "pass": {
         "default": "控制的內容具有足夠的大小（${data.width}px x ${data.height}px，應至少為 ${data.minSize}px x ${data.minSize}px）",
-        "obscured": "控制的內容被忽略，因為它被完全遮擋，因此不可點擊"
+        "obscured": "控制的內容被忽略，因為它被完全遮擋，因此不可點擊",
+        "large": "目標遠超過 ${data.minSize}px 最小大小"
       },
       "fail": {
         "default": "目標大小不足（${data.width}px x ${data.height}px，應至少為 ${data.minSize}px x ${data.minSize}px）",
@@ -882,7 +900,8 @@
         "default": "tabindex 為負的元素大小不足（${data.width}px x ${data.height}px，應至少為 ${data.minSize}px x ${data.minSize}px），這是一個目標嗎？",
         "contentOverflow": "由於內容溢出，無法準確確定元素大小",
         "partiallyObscured": "tabindex 為負的元素大小不足，因為它被部分遮蔽（最小空間為 ${data.width}px x ${data.height}px，應至少為 ${data.minSize}px x ${data.minSize}像素），這是一個目標嗎？",
-        "partiallyObscuredNonTabbable": "目標大小不足，因為它被負 tabindex 的鄰近的元素部分遮擋（最小空間為 ${data.width}px x ${data.height}px，應至少為 ${data.minSize}px x ${data .minSize }px），相鄰的元素是目標嗎？"
+        "partiallyObscuredNonTabbable": "目標大小不足，因為它被負 tabindex 的鄰近的元素部分遮擋（最小空間為 ${data.width}px x ${data.height}px，應至少為 ${data.minSize}px x ${data .minSize }px），相鄰的元素是目標嗎？",
+        "tooManyRects": "由於重疊元素太多，無法取得目標大小"
       }
     },
     "header-present": {

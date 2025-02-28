@@ -690,6 +690,10 @@
       "fail": "the autocomplete attribute is incorrectly formatted",
       "incomplete": "the autocomplete attribute has a non-standard value. Check whether any standard value could be used instead."
     },
+    "has-outdated-tag": {
+      "pass": "Element does not have outdated tag.",
+      "fail": "Remove outdated tag (${data.tagName})."
+    },
     "accesskeys": {
       "pass": "Accesskey attribute value is unique",
       "fail": "Document has multiple elements with the same accesskey"

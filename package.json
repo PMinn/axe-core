@@ -75,7 +75,7 @@
     "start": "http-server -a \"\" -p 9876 --silent",
     "develop": "grunt dev --force",
     "api-docs": "jsdoc --configure .jsdoc.json",
-    "build": "grunt",
+    "build": "grunt build --all-lang",
     "patch": "npx patch-package",
     "unpatch": "npx patch-package --reverse",
     "eslint": "eslint --color --format stylish '{lib,test,build,doc}/**/*.js' 'Gruntfile.js'",
